@@ -1,0 +1,32 @@
+{
+  "name": "esy-bzip2",
+  "version": "1.0.8000",
+  "description": "bzip2 packaged for esy",
+  "source": "https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz#sha256:ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269",
+  "override": {
+    "buildEnv": {
+      "PREFIX": "#{self.install}",
+      "CC": "#{os == 'windows' ? 'x86_64-w64-mingw32-gcc': 'cc'}"
+    },
+    "build": [
+      [
+        "bash",
+        "-c",
+        "#{os == 'darwin' ? 'patch -p1 < 001-Without-soname-linker-option.patch': 'true'}"
+      ],
+      ["make", "-f", "Makefile-libbz2_so"],
+      "cp libbz2.so.1.0.8 #{self.lib}",
+      "ln -s #{self.lib}/libbz2.1.0.8 #{self.lib}/libz2.so.1.0"
+    ],
+    "install": ["make install PREFIX=#{$PREFIX}"],
+    "buildsInSource": true,
+    "exportedEnv": {
+      "//": "This is just an example",
+      "PKG_CONFIG_PATH": {
+        "val": "#{self.lib / 'pkgconfig'}",
+        "scope": "global"
+      }
+    },
+    "dependencies": {}
+  }
+}
