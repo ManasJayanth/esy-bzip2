@@ -15,6 +15,7 @@
         "-c",
         "#{os == 'darwin' ? 'patch -p1 < 001-Without-soname-linker-option.patch': 'true'}"
       ],
+      ["bash", "-c", "patch -p1 < ./002-not-link-the-so-file.patch"],
       ["make", "CC=#{$CC}", "-f", "Makefile-libbz2_so"],
       "unlink libz2.so.1.0",
       "ln -s #{self.lib}/libbz2.1.0.8 #{self.lib}/libz2.so.1.0"
