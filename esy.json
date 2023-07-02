@@ -6,7 +6,8 @@
   "override": {
     "buildEnv": {
       "PREFIX": "#{self.install}",
-      "CC": "#{os == 'windows' ? 'x86_64-w64-mingw32-gcc': 'cc'}"
+      "CC": "#{os == 'windows' ? 'x86_64-w64-mingw32-gcc': 'cc'}",
+      "AR": "#{os == 'windows' ? 'x86_64-w64-mingw32-ar': 'ar'}"
     },
     "build": [
       [
@@ -14,11 +15,11 @@
         "-c",
         "#{os == 'darwin' ? 'patch -p1 < 001-Without-soname-linker-option.patch': 'true'}"
       ],
-      ["make", "-f", "Makefile-libbz2_so"],
-      "cp libbz2.so.1.0.8 #{self.lib}",
+      ["make", "CC=#{$CC}", "-f", "Makefile-libbz2_so"],
+      "unlink libz2.so.1.0",
       "ln -s #{self.lib}/libbz2.1.0.8 #{self.lib}/libz2.so.1.0"
     ],
-    "install": ["make install PREFIX=#{$PREFIX}"],
+    "install": ["make install CC=#{$CC} AR=#{$AR} PREFIX=#{$PREFIX}"],
     "buildsInSource": true,
     "exportedEnv": {
       "//": "This is just an example",
