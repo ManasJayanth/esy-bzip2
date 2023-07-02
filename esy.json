@@ -20,6 +20,7 @@
     ],
     "install": [
       "make install CC=#{$CC} AR=#{$AR} PREFIX=#{$PREFIX}",
+      "cp ./libbz2.so.1.0.8 #{self.lib}",
       "ln -s #{self.lib}/libbz2.so.1.0.8 #{self.lib}/libz2.so.1.0"
     ],
     "buildsInSource": true,
