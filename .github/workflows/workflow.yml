@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: Install esy and esy-package
-        run: npm install -g @esy-nightly/esy verdaccio esy-package@latest
+        run: npm install -g esy verdaccio esy-package@latest
 
       - name: Run end-to-end tests on the package 
         run: DEBUG=bale*,verdaccio* esy-package
